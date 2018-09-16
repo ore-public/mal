@@ -9,11 +9,11 @@ def EVAL(v)
 end
 
 def PRINT(v)
-  v
+  puts v
 end
 
 def rep(line)
-  puts line
+  PRINT(EVAL(READ(line)))
 end
 
 while line = Readline.readline('user> ', true)
