@@ -23,7 +23,13 @@ def tokenizer(str)
 end
 
 def read_atom(reader)
-
+  c = reader.next
+  case c
+  when /[+-]?\d+/
+    token.to_i
+  else
+    token.to_sym
+  end
 end
 
 def read_list(reader)
