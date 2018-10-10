@@ -1,7 +1,9 @@
 require 'readline'
+require './reader'
+require './printer'
 
 def READ(v)
-  v
+  read_str(v)
 end
 
 def EVAL(v)
@@ -9,7 +11,7 @@ def EVAL(v)
 end
 
 def PRINT(v)
-  puts v
+  pr_str(v)
 end
 
 def rep(line)
