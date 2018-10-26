@@ -1,6 +1,6 @@
 require 'readline'
-require './reader'
-require './printer'
+require_relative 'reader'
+require_relative 'printer'
 
 def READ(v)
   read_str(v)
@@ -19,5 +19,5 @@ def rep(line)
 end
 
 while line = Readline.readline('user> ', true)
-  rep(line)
+  puts rep(line)
 end
