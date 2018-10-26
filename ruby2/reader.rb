@@ -34,17 +34,17 @@ def read_atom(reader)
   end
 end
 
-def read_list(reader, klass, start = '(', last = ')')
+def read_list(reader, klass)
   list = klass.new
   c = reader.next
-  if c != start
-    raise "list start not '#{start}'"
+  if c != klass::START_SYMBOL
+    raise "list start not '#{klass::START_SYMBOL}'"
   end
 
   while true
     c = read_form(reader)
     break if c.nil?
-    break if c.to_s == last
+    break if c.to_s == klass::END_SYMBOL
     list.push(c)
   end
 
@@ -53,12 +53,12 @@ end
 
 def read_form(reader)
   case reader.peek
-  when '('
+  when List::START_SYMBOL
     read_list(reader, List)
-  when '['
-    read_list(reader, Vector, '[', ']')
-  when '{'
-    read_list(reader, Dictionary, '{', '}')
+  when Vector::START_SYMBOL
+    read_list(reader, Vector)
+  when Dictionary::START_SYMBOL
+    read_list(reader, Dictionary)
   when "'"
     reader.next
     List.new [:quote, read_form(reader)]
