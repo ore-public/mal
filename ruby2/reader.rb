@@ -21,7 +21,11 @@ end
 
 def tokenizer(str)
   re = /[\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"|;.*|[^\s\[\]{}('"`,;)]*)/
-  str.scan(re).flatten.reject{|v| v.empty? }
+  str.scan(re).flatten.reject {|v| v.empty?}
+end
+
+def parse_str(t) # trim and unescape
+  t.gsub(/\\./, {"\\\\" => "\\", "\\n" => "\n", "\\\"" => '"'})
 end
 
 def read_atom(reader)
@@ -29,6 +33,10 @@ def read_atom(reader)
   case c
   when /^-?\d+$/
     c.to_i
+  when /^".*"$/
+    parse_str(c)
+  when /^:/
+    c
   else
     c.to_sym
   end
