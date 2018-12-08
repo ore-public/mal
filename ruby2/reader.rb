@@ -25,7 +25,7 @@ def tokenizer(str)
 end
 
 def parse_str(t) # trim and unescape
-  t.gsub(/\\./, {"\\\\" => "\\", "\\n" => "\n", "\\\"" => '"'})
+  t[1..-2].gsub(/\\./, {"\\\\" => "\\", "\\n" => "\n", "\\\"" => '"'})
 end
 
 def read_atom(reader)
@@ -36,7 +36,13 @@ def read_atom(reader)
   when /^".*"$/
     parse_str(c)
   when /^:/
-    c
+    "\u029e" + c[1..-1]
+  when 'nil'
+    nil
+  when 'true'
+    true
+  when 'false'
+    false
   else
     c.to_sym
   end
@@ -51,7 +57,6 @@ def read_list(reader, klass)
 
   while true
     c = read_form(reader)
-    break if c.nil?
     break if c.to_s == klass::END_SYMBOL
     list.push(c)
   end
@@ -86,8 +91,6 @@ def read_form(reader)
     reader.next
     meta = read_form(reader)
     List.new [:'with-meta', read_form(reader), meta]
-  when nil
-    nil
   else
     read_atom(reader)
   end
