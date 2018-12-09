@@ -28,7 +28,6 @@ end
 
 def EVAL(ast, repl_env)
   while true
-    p ast
     return eval_ast(ast, repl_env) unless ast.is_a?(List)
     return ast if ast.empty?
 
