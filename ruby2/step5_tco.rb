@@ -10,9 +10,9 @@ def eval_ast(ast, repl_env)
   when Symbol
     repl_env.get(ast)
   when List
-    List.new(ast.map {|v| EVAL(v, repl_env)})
+    List.new(1, ast.map {|v| EVAL(v, repl_env)}).first
   when Vector
-    Vector.new(ast.map {|v| EVAL(v, repl_env)})
+    Vector.new(1, ast.map {|v| EVAL(v, repl_env)}).first
   when Dictionary
     new_h = {}
     ast.to_hash.each {|k, v| new_h[EVAL(k, repl_env)] = EVAL(v, repl_env)}
